@@ -5,11 +5,9 @@ import { Navbar } from '@/components/Navbar';
 import { RecipeCard } from '@/components/RecipeCard';
 import { RecipeDetailModal } from '@/components/RecipeDetailModal';
 import { SubmitRecipeModal } from '@/components/SubmitRecipeModal';
-import { DeployGuideModal } from '@/components/DeployGuideModal';
 import { Recipe, Comment } from '@/types/recipe';
 import { getRecipes, addRecipe, addComment, toggleLike, INITIAL_RECIPES } from '@/lib/recipesService';
-import { isSupabaseConfigured } from '@/lib/supabase';
-import { Search, Sparkles, Filter, Egg, ChefHat } from 'lucide-react';
+import { Search, Sparkles, Filter, Egg, ChefHat, Heart, Utensils } from 'lucide-react';
 
 const CATEGORIES = [
   'All',
@@ -27,17 +25,17 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [eggFilter, setEggFilter] = useState<string>('all');
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
-  const [isDeployGuideOpen, setIsDeployGuideOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function loadData() {
-      setIsLoading(true);
       try {
         const data = await getRecipes();
-        setRecipes(data);
-      } finally {
-        setIsLoading(false);
+        if (data && data.length > 0) {
+          setRecipes(data);
+        }
+      } catch (e) {
+        console.warn('Failed to load remote recipes, keeping initial', e);
       }
     }
     loadData();
@@ -114,19 +112,16 @@ export default function Home() {
   }, [recipes, selectedCategory, eggFilter, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-amber-50/30 text-neutral-900 flex flex-col font-sans">
+    <div className="min-h-screen bg-amber-50/25 text-neutral-900 flex flex-col font-sans">
       {/* Top Navbar */}
-      <Navbar
-        onOpenSubmit={() => setIsSubmitOpen(true)}
-        onOpenDeployGuide={() => setIsDeployGuideOpen(true)}
-      />
+      <Navbar onOpenSubmit={() => setIsSubmitOpen(true)} />
 
       {/* Hero Banner */}
       <section className="relative overflow-hidden pt-12 pb-10 sm:pt-16 sm:pb-14 border-b border-amber-200/50 bg-gradient-to-b from-amber-100/60 via-amber-50/40 to-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-200/70 text-amber-950 font-semibold text-xs mb-4 shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Targeting official domain: eggcellent.fun</span>
+            <span>Curated homemade egg creations & chef secrets</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-neutral-900 tracking-tight max-w-3xl mx-auto">
@@ -137,7 +132,7 @@ export default function Home() {
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed">
-            From creamy 8-minute soft scrambles to fiery bubbling shakshukas. Discover, submit, review, and master the humble egg.
+            From silky 8-minute French scrambles to bubbling spicy shakshukas. Discover, share, review, and master the humble egg.
           </p>
 
           {/* Search Bar */}
@@ -146,7 +141,7 @@ export default function Home() {
               <Search className="w-5 h-5 text-neutral-400 absolute left-4 pointer-events-none" />
               <input
                 type="text"
-                placeholder="Search by dish, ingredient (e.g. feta, chili), or chef..."
+                placeholder="Search by dish, ingredient (e.g. feta, chives), or chef..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-white border border-amber-200/80 shadow-lg shadow-amber-200/20 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
@@ -202,19 +197,15 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Database Status Pill */}
+        {/* Results Info */}
         <div className="my-6 flex items-center justify-between text-xs text-neutral-500">
           <div className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${isSupabaseConfigured ? 'bg-emerald-500 animate-pulse' : 'bg-amber-400'}`} />
-            <span>
-              {isSupabaseConfigured
-                ? 'Connected to Supabase PostgreSQL database'
-                : 'Preview mode with local persistence (Ready for Supabase cloud sync)'}
-            </span>
+            <Utensils className="w-4 h-4 text-amber-500" />
+            <span>Browse community favorites or share your own signature recipe</span>
           </div>
 
           <span className="font-semibold text-neutral-700">
-            {filteredRecipes.length} {filteredRecipes.length === 1 ? 'recipe' : 'recipes'} found
+            {filteredRecipes.length} {filteredRecipes.length === 1 ? 'recipe' : 'recipes'} available
           </span>
         </div>
 
@@ -241,9 +232,9 @@ export default function Home() {
             <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-3 text-amber-700">
               <Egg className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-neutral-800">No egg recipes found</h3>
+            <h3 className="text-lg font-bold text-neutral-800">No recipes matched your search</h3>
             <p className="text-xs text-neutral-500 mt-1">
-              Try adjusting your search terms or be the first to submit this recipe!
+              Try adjusting your filters or be the first to submit this egg dish!
             </p>
             <button
               onClick={() => setIsSubmitOpen(true)}
@@ -256,20 +247,21 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-amber-200/60 bg-amber-50/50 py-8 text-center text-xs text-neutral-500 mt-auto">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 font-bold text-neutral-800">
-            <ChefHat className="w-4 h-4 text-amber-500" />
+      <footer className="border-t border-amber-200/60 bg-white/70 py-10 text-xs text-neutral-500 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-2 font-bold text-neutral-800 text-sm">
+            <ChefHat className="w-5 h-5 text-amber-500" />
             <span>Eggcellent.fun</span>
-            <span className="font-normal text-neutral-400">| Made with eggs, butter, and code</span>
+            <span className="font-normal text-neutral-400">| The Community Recipe Platform</span>
           </div>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setIsDeployGuideOpen(true)}
-              className="hover:text-amber-700 underline font-semibold transition-colors"
-            >
-              Domain & Hosting Setup Guide
+          <div className="flex flex-wrap items-center gap-6 text-neutral-600">
+            <button onClick={() => setSelectedCategory('All')} className="hover:text-amber-700 transition-colors">
+              All Recipes
             </button>
+            <button onClick={() => setIsSubmitOpen(true)} className="hover:text-amber-700 transition-colors font-semibold text-amber-600">
+              + Submit Recipe
+            </button>
+            <span>&copy; {new Date().getFullYear()} Eggcellent.fun</span>
           </div>
         </div>
       </footer>
@@ -286,11 +278,6 @@ export default function Home() {
         isOpen={isSubmitOpen}
         onClose={() => setIsSubmitOpen(false)}
         onSubmit={handleCreateRecipe}
-      />
-
-      <DeployGuideModal
-        isOpen={isDeployGuideOpen}
-        onClose={() => setIsDeployGuideOpen(false)}
       />
     </div>
   );

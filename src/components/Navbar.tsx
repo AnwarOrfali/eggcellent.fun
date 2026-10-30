@@ -1,16 +1,15 @@
 'use client';
 
 import React from 'react';
-import { Egg, PlusCircle, HelpCircle } from 'lucide-react';
+import { Egg, PlusCircle, Sparkles } from 'lucide-react';
 
 interface NavbarProps {
   onOpenSubmit: () => void;
-  onOpenDeployGuide: () => void;
 }
 
-export function Navbar({ onOpenSubmit, onOpenDeployGuide }: NavbarProps) {
+export function Navbar({ onOpenSubmit }: NavbarProps) {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-amber-200/50 bg-amber-50/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 w-full border-b border-amber-200/60 bg-white/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand */}
         <div className="flex items-center gap-3">
@@ -33,16 +32,7 @@ export function Navbar({ onOpenSubmit, onOpenDeployGuide }: NavbarProps) {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            onClick={onOpenDeployGuide}
-            className="flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium text-amber-900 bg-amber-100/80 hover:bg-amber-200/80 rounded-xl transition-all"
-            title="Setup eggcellent.fun domain & Vercel hosting"
-          >
-            <HelpCircle className="w-4 h-4 text-amber-700" />
-            <span className="hidden sm:inline">Go-Live Setup</span>
-          </button>
-
+        <div className="flex items-center gap-3">
           <button
             onClick={onOpenSubmit}
             className="flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 rounded-xl shadow-md shadow-amber-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
