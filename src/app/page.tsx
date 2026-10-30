@@ -19,23 +19,23 @@ const CATEGORIES = [
 ];
 
 export default function Home() {
-  const [recipes, setRecipes] = useState<Recipe[]>(INITIAL_RECIPES);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [eggFilter, setEggFilter] = useState<string>('all');
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       try {
         const data = await getRecipes();
-        if (data && data.length > 0) {
-          setRecipes(data);
-        }
+        setRecipes(data);
       } catch (e) {
-        console.warn('Failed to load remote recipes, keeping initial', e);
+        console.warn('Failed to load remote recipes', e);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadData();
