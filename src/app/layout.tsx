@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Eggcellent.fun - The Community Egg Recipe Hub",
+  title: "Eggcellent",
   description: "Discover, share, and review the world's greatest egg recipes — from shakshukas and silky french scrambles to tamagoyaki and ramen eggs.",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
