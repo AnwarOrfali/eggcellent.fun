@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍳 Eggcellent
 
-## Getting Started
+> A cozy community platform for egg lovers. Discover, share, and review everyday egg recipes — from quick morning scrambles to weekend shakshukas.
 
-First, run the development server:
+**Live Website:** [https://eggcellent.fun](https://eggcellent.fun)
 
+---
+
+## Features
+
+- **Recipe Explorer:** Filter recipes by meal category (*Breakfast, Brunch, Quick & Easy, Gourmet, Global Favorites*) or by egg count (1–2, 3–4, 5+ eggs).
+- **Interactive Cooking Mode:** Tap on any recipe to open step-by-step instructions and check off ingredients as you cook.
+- **Community Reviews:** Leave feedback, cooking tips, and rate dishes with a 1–5 egg rating.
+- **Recipe Submissions:** Anyone can share their own signature egg recipe with cook times, ingredients, and photos.
+- **Zero-Lag Search:** Instant live filtering by title, ingredients, chef handle, or style.
+
+---
+
+## Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) (App Router, Turbopack)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/)
+- **Language:** TypeScript
+- **Database:** [Supabase](https://supabase.com/) (PostgreSQL with Row-Level Security)
+- **Icons:** [Lucide React](https://lucide.dev/)
+- **Hosting:** [Vercel](https://vercel.com/)
+- **DNS & Domain:** [Cloudflare](https://www.cloudflare.com/)
+
+---
+
+## Getting Started (Local Development)
+
+### 1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/AnwarOrfali/eggcellent.fun.git
+cd eggcellent.fun
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Set up environment variables
+Create a `.env.local` file in the root directory:
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
+*(Note: If no Supabase credentials are provided, the app runs in preview mode with local persistence).*
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Run the development server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to see the site.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Database Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The database schema and initial starter recipes are located in the `supabase/` folder:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **`supabase/schema.sql`**: Run this in your Supabase SQL Editor to create the `recipes` and `comments` tables with public read/insert policies and starter recipes.
+2. **`supabase/insert_additional_recipes.sql`**: Optional starter dishes (*Tamagoyaki & Korean Mayak Eggs*).
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+├── public/                 # Static assets (favicons, icons)
+├── src/
+│   ├── app/                # Next.js App Router (pages, layout, robots, sitemap)
+│   ├── components/         # Reusable UI components (Navbar, RecipeCard, Modals)
+│   ├── lib/                # Supabase client and recipe service layer
+│   └── types/              # TypeScript interfaces for recipes and comments
+└── supabase/               # SQL database schema and seeds
+```
+
+---
+
+## License
+
+MIT &copy; 2026 [Eggcellent.fun](https://eggcellent.fun)
