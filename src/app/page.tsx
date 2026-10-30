@@ -7,7 +7,7 @@ import { RecipeDetailModal } from '@/components/RecipeDetailModal';
 import { SubmitRecipeModal } from '@/components/SubmitRecipeModal';
 import { DeployGuideModal } from '@/components/DeployGuideModal';
 import { Recipe, Comment } from '@/types/recipe';
-import { getRecipes, addRecipe, addComment, toggleLike } from '@/lib/recipesService';
+import { getRecipes, addRecipe, addComment, toggleLike, INITIAL_RECIPES } from '@/lib/recipesService';
 import { isSupabaseConfigured } from '@/lib/supabase';
 import { Search, Sparkles, Filter, Egg, ChefHat } from 'lucide-react';
 
@@ -21,14 +21,14 @@ const CATEGORIES = [
 ];
 
 export default function Home() {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipes, setRecipes] = useState<Recipe[]>(INITIAL_RECIPES);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [eggFilter, setEggFilter] = useState<string>('all');
   const [isSubmitOpen, setIsSubmitOpen] = useState(false);
   const [isDeployGuideOpen, setIsDeployGuideOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function loadData() {
