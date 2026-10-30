@@ -119,11 +119,6 @@ export default function Home() {
       {/* Hero Banner */}
       <section className="relative overflow-hidden pt-12 pb-10 sm:pt-16 sm:pb-14 border-b border-amber-200/50 bg-gradient-to-b from-amber-100/60 via-amber-50/40 to-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-200/70 text-amber-950 font-semibold text-xs mb-4 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-            <span>Curated homemade egg creations & chef secrets</span>
-          </div>
-
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-neutral-900 tracking-tight max-w-3xl mx-auto">
             The World&apos;s Tastiest{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-600 to-yellow-600 underline decoration-amber-400 decoration-wavy decoration-from-font">
