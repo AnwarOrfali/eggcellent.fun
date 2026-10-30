@@ -261,7 +261,7 @@ export default function Home() {
             <button onClick={() => setIsSubmitOpen(true)} className="hover:text-amber-700 transition-colors font-semibold text-amber-600">
               + Submit Recipe
             </button>
-            <span>&copy; {new Date().getFullYear()} Eggcellent.fun</span>
+            <span>&copy; 2026 Eggcellent.fun</span>
           </div>
         </div>
       </footer>
